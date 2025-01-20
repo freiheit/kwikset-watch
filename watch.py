@@ -55,9 +55,7 @@ async def main() -> None:
                 f"{device_info['batterypercentage']}% {device_info['batterystatus']}"
             )
             if conf.heartbeaturl:
-                await http.get(
-                    "https://heartbeat.uptimerobot.com/m798367254-c8f5713329ac5a83ce29a23a97af65c20a902e6e"
-                )
+                await http.get(conf.heartbeaturl)
             await asyncio.sleep(300)
 
 
