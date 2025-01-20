@@ -1,0 +1,3 @@
+username=example@example.com
+password=changeme
+heartbeaturl=https://heartbeat.example.com/abc123
