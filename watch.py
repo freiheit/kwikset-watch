@@ -1,12 +1,12 @@
 #!/opt/kwikset/venv/bin/python
 
-import aiodns
-import aiohttp
 import asyncio
-import configargparse
+import json
 import logging
 import time
-import json
+
+import aiohttp
+import configargparse
 
 from aiokwikset import API
 
