@@ -74,10 +74,11 @@ async def main() -> None:
                 if conf.discordhookurl:
                     discordpayload = {
                         "username": "Kwikset Lock",
-                        "content": f"# **Battery Percent:** _{device_info['batterypercentage']}%_\n"
+                        "content": f"# **Door Status:** _{device_info['doorstatus']}_\n"
+                                   f"## **Battery Percent:** _{device_info['batterypercentage']}%_\n"
                                    f"## **Battery Status:** _{device_info['batterystatus']}_\n"
                                    f"### **Last Lock Status Time:** _{time.ctime(device_info['lastLockStatusTime'])}_\n"
-                                   f"### Last Update Status: {time.ctime(device_info['lastupdatestatus'])}\n"
+                                   f"### **Last Update Status:** _{time.ctime(device_info['lastupdatestatus'])}_\n"
                                    #"```json\n"
                                    #f"{json.dumps(device_info,indent=2)}\n"
                                    #"```\n"
