@@ -23,8 +23,8 @@ async def main() -> None:
     confparse.add("-u", "--username", required=True)
     confparse.add("-p", "--password", required=True)
     confparse.add("--heartbeaturl", required=False, default=False)
-    confparse.add("-d", "--detailstimesecs", required=False, default=3600*5 )  # 5 hours
-    confparse.add("-s", "--sleeptime", required=False, default=300)  # 5 minutes
+    confparse.add("-d", "--detailstimesecs", required=False, type=int, default=86400 )  # 1 day
+    confparse.add("-s", "--sleeptime", required=False, type=int, default=300)  # 5 minutes
     confparse.add("--discordhookurl", required=False, default=False)
 
     conf = confparse.parse_args()
@@ -72,8 +72,9 @@ async def main() -> None:
 
             if (
                 last_percentage != device_info["batterypercentage"]
-                or (details_time + conf.detailstimesecs) < time.time()
+                or (time.time() > (details_time + conf.detailstimesecs))
             ):
+                details_time = time.time()
                 logging.info(json.dumps(device_info))
                 last_percentage = device_info["batterypercentage"]
 
