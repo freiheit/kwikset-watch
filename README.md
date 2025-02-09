@@ -1,3 +1,5 @@
+[![Pylint](https://github.com/freiheit/kwikset-watch/actions/workflows/pylint.yml/badge.svg)](https://github.com/freiheit/kwikset-watch/actions/workflows/pylint.yml)
+
 # Kwikset Battery Status Watch
 
 ## Features:
