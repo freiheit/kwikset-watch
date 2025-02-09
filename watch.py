@@ -20,8 +20,8 @@ async def main() -> None:
     confparse.add("-u", "--username", required=True)
     confparse.add("-p", "--password", required=True)
     confparse.add("--heartbeaturl", required=False, default=False)
-    confparse.add("-d", "--detailstimesecs", required=False, default=(3600*5) ) # 5 hours
-    confparse.add("-s", "--sleeptime", required=False, default=300) # 5 minutes
+    confparse.add("-d", "--detailstimesecs", required=False, default=3600*5 )  # 5 hours
+    confparse.add("-s", "--sleeptime", required=False, default=300)  # 5 minutes
     confparse.add("--discordhookurl", required=False, default=False)
 
     conf = confparse.parse_args()
@@ -34,7 +34,9 @@ async def main() -> None:
         datefmt="%Y-%m-%d %H:%M:%S",
     )
 
-    logging.info(f"Starting up. User={conf.username}, detailstimesecs={conf.detailstimesecs}, sleeptime={conf.sleeptime}")
+    logging.info(
+        f"Starting up. User={conf.username}, detailstimesecs={conf.detailstimesecs}, sleeptime={conf.sleeptime}"
+    )
 
     api = API(conf.username)
 
@@ -44,7 +46,7 @@ async def main() -> None:
     await api.verify_user(pre_auth, input("Code:"))
 
     # Get user account information:
-    user_info = await api.user.get_info()
+    # user_info = await api.user.get_info()
 
     # Get the homes
     homes = await api.user.get_homes()
@@ -65,8 +67,7 @@ async def main() -> None:
 
             if (
                 last_percentage != device_info["batterypercentage"]
-                or 
-                (details_time + conf.detailstimesecs) < time.time()
+                or (details_time + conf.detailstimesecs) < time.time()
             ):
                 logging.info(json.dumps(device_info))
                 last_percentage = device_info["batterypercentage"]
@@ -79,10 +80,9 @@ async def main() -> None:
                                    f"## **Battery Status:** _{device_info['batterystatus']}_\n"
                                    f"### **Last Lock Status Time:** _{time.ctime(device_info['lastLockStatusTime'])}_\n"
                                    f"### **Last Update Status:** _{time.ctime(device_info['lastupdatestatus'])}_\n"
-                                   #"```json\n"
-                                   #f"{json.dumps(device_info,indent=2)}\n"
-                                   #"```\n"
-                                   ,
+                                   # "```json\n"
+                                   # f"{json.dumps(device_info,indent=2)}\n"
+                                   # "```\n"
                     }
 
                     await http.post(conf.discordhookurl, json=discordpayload)
