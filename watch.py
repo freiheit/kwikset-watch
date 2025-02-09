@@ -9,7 +9,6 @@ import time
 import json
 
 from aiokwikset import API
-from pprint import pprint, pformat
 
 
 async def main() -> None:
@@ -21,8 +20,8 @@ async def main() -> None:
     confparse.add("-u", "--username", required=True)
     confparse.add("-p", "--password", required=True)
     confparse.add("--heartbeaturl", required=False, default=False)
-    confparse.add("-d", "--detailstimesecs", required=False, default=7200)
-    confparse.add("-s", "--sleeptime", required=False, default=300)
+    confparse.add("-d", "--detailstimesecs", required=False, default=(3600*5) ) # 5 hours
+    confparse.add("-s", "--sleeptime", required=False, default=300) # 5 minutes
     confparse.add("--discordhookurl", required=False, default=False)
 
     conf = confparse.parse_args()
@@ -34,6 +33,8 @@ async def main() -> None:
         level=logging.INFO,
         datefmt="%Y-%m-%d %H:%M:%S",
     )
+
+    logging.info(f"Starting up. User={conf.username}, detailstimesecs={conf.detailstimesecs}, sleeptime={conf.sleeptime}")
 
     api = API(conf.username)
 
@@ -54,29 +55,35 @@ async def main() -> None:
     async with aiohttp.ClientSession() as http:
         details_time = 0
         last_percentage = 100
+
         while True:
             device_info = await api.device.get_device_info(devices[0]["deviceid"])
-            # pprint(device_info)
+
             logging.info(
                 f"{device_info['batterypercentage']}% {device_info['batterystatus']}"
             )
+
             if (
                 last_percentage != device_info["batterypercentage"]
-                or (details_time + conf.detailstimesecs) < time.time()
+                or 
+                (details_time + conf.detailstimesecs) < time.time()
             ):
                 logging.info(json.dumps(device_info))
                 last_percentage = device_info["batterypercentage"]
+
                 if conf.discordhookurl:
                     discordpayload = {
                         "username": "Kwikset Lock",
-                        "content": f"# Battery Percent: {device_info['batterypercentage']}\n"
-                        f"## Battery Status: {device_info['batterystatus']}\n"
-                        f"## Last Lock Status Time: {time.ctime(device_info['lastLockStatusTime'])}\n"
-                        f"## Last Update Status: {time.ctime(device_info['lastupdatestatus'])}\n"
-                        "```json\n"
-                        f"{json.dumps(device_info,indent=2)}\n"
-                        "```\n",
+                        "content": f"# **Battery Percent:** _{device_info['batterypercentage']}%_\n"
+                                   f"## **Battery Status:** _{device_info['batterystatus']}_\n"
+                                   f"### **Last Lock Status Time:** _{time.ctime(device_info['lastLockStatusTime'])}_\n"
+                                   f"### Last Update Status: {time.ctime(device_info['lastupdatestatus'])}\n"
+                                   #"```json\n"
+                                   #f"{json.dumps(device_info,indent=2)}\n"
+                                   #"```\n"
+                                   ,
                     }
+
                     await http.post(conf.discordhookurl, json=discordpayload)
 
             if conf.heartbeaturl:
