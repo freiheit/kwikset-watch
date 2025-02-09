@@ -1,4 +1,4 @@
-[![Pylint](https://github.com/freiheit/kwikset-watch/actions/workflows/pylint.yml/badge.svg)](https://github.com/freiheit/kwikset-watch/actions/workflows/pylint.yml) [![CodeQL Advanced](https://github.com/freiheit/kwikset-watch/actions/workflows/codeql.yml/badge.svg)](https://github.com/freiheit/kwikset-watch/actions/workflows/codeql.yml)
+[![Pylint](https://github.com/freiheit/kwikset-watch/actions/workflows/pylint.yml/badge.svg)](https://github.com/freiheit/kwikset-watch/actions/workflows/pylint.yml) [![CodeQL Advanced](https://github.com/freiheit/kwikset-watch/actions/workflows/codeql.yml/badge.svg)](https://github.com/freiheit/kwikset-watch/actions/workflows/codeql.yml) [![Bandit](https://github.com/freiheit/kwikset-watch/actions/workflows/bandit.yml/badge.svg)](https://github.com/freiheit/kwikset-watch/actions/workflows/bandit.yml)
 
 # Kwikset Battery Status Watch
 
