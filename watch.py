@@ -1,5 +1,8 @@
 #!/opt/kwikset/venv/bin/python
 
+"""Tool to watch, log and maybe report to discord
+the battery status of a cloud-connected kwikset lock."""
+
 import asyncio
 import json
 import logging
@@ -35,7 +38,8 @@ async def main() -> None:
     )
 
     logging.info(
-        f"Starting up. User={conf.username}, detailstimesecs={conf.detailstimesecs}, sleeptime={conf.sleeptime}"
+        "Starting up. User=%s, detailstimesecs=%s, sleeptime=%s",
+        conf.username, conf.detailstimesecs, conf.sleeptime
     )
 
     api = API(conf.username)
@@ -62,7 +66,8 @@ async def main() -> None:
             device_info = await api.device.get_device_info(devices[0]["deviceid"])
 
             logging.info(
-                f"{device_info['batterypercentage']}% {device_info['batterystatus']}"
+                "%s%% %s",
+                device_info['batterypercentage'], device_info['batterystatus']
             )
 
             if (
