@@ -2,3 +2,6 @@ username=example@example.com
 password=changeme
 # heartbeaturl=https://heartbeat.example.com/abc123
 # discordhookurl=https://discord.com/api/webhooks/123456/ABC-abc
+
+# sleeptime=300
+# detailstimesecs=86400
